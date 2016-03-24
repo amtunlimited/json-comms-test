@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title>Simple JSON test</title>
+	</head>
+
+	<body>
+		<label>Input one: <input id="in1" type="number"></input></label><br/>
+		<label>Input two: <input id="in2" type="number"></input></label><br/>
+		<input id="run" type="button" value="Run!"></input>
+		<div id="result"></div>
+		<script type="text/javascript">
+			document.getElementById('run').addEventListener('click', function(event) {
+				var url = "http://aarontag.com/json/jsonTest.py/test";
+				
+		          //All of this stuff is just boilerplate to make an http request from js
+		          //This one if to check the win state
+				var xmlJSON = new XMLHttpRequest();
+				xmlJSON.onreadystatechange = function() {
+					if (xmlJSON.readyState == 4 && xmlJSON.status == 200) {
+						console.log(xmlJSON.responseText);
+						result = JSON.parse(xmlJSON.responseText);
+						document.getElementById('result').innerHTML = "The result is <b>" + result["result"] + "</b>";
+					}else{
+					
+					}
+				}
+				xmlJSON.open("POST", url, true);
+				xmlJSON.setRequestHeader("Content-type", "application/json");
+				var data = {
+					"in1" : Number(document.getElementById('in1').value),
+					"in2" : Number(document.getElementById('in2').value)
+				};
+
+				xmlJSON.send(JSON.stringify(data));
+			});
+		</script>
+	</body>
+
+</html>
